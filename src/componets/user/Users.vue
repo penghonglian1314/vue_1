@@ -47,7 +47,12 @@
             ></el-button>
             <!-- 分配角色按钮 -->
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button
+                type="warning"
+                icon="el-icon-setting"
+                size="mini"
+                @click="supplyRoles(scope.row)"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -115,6 +120,33 @@
         <el-button type="primary" @click="editFormdialogUserlist()">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 分配角色对话框 -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="supplyFormdialogVisible"
+      width="50%"
+      @close="supplyFormClosed"
+    >
+      <div>
+        <p>当前的用户 : {{usersInfo.username}}</p>
+        <p>当前的角色 : {{usersInfo.role_name}}</p>
+        <p>
+          分配的新角色 ：
+          <el-select v-model="selectRole" placeholder="请选择">
+            <el-option
+              v-for="item in roleList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="supplyFormdialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="supplyFormlist">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -143,7 +175,15 @@ export default {
         pagenum: 1,
         pagesize: 2
       },
+      supplyForm: {
+        username: '',
+        email: ''
+      },
+      supplyFormdialogVisible: false,
+      usersInfo: {},
       userList: [],
+      roleList: [],
+      selectRole: '',
       total: 0,
       addFormdialogVisible: false,
       addForm: {
@@ -198,6 +238,35 @@ export default {
       this.userList = res.data.users
       this.total = res.data.total
     },
+    supplyFormClosed() {
+      this.selectRole = ''
+      this.userInfo = ''
+    },
+    // 分配角色按钮
+    async supplyRoles(usersInfo) {
+      this.usersInfo = usersInfo
+      this.supplyFormdialogVisible = true
+      const { data: res } = await this.$http.get('roles')
+      this.roleList = res.data
+      if (res.meta.status !== 200) return this.$message.error('获取角色列表失败')
+    },
+    async supplyFormlist() {
+      if (!this.selectRole) {
+        return this.$message.error('请选择要分配的角色')
+      }
+      const { data: res } = await this.$http.put(`users/${this.usersInfo.id}/role`, {
+        rid: this.selectRole
+      })
+      if (res.meta.status !== 200) return this.$message.error('更新角色列表失败')
+      this.getUserList()
+      this.supplyFormdialogVisible = false
+    },
+    // 获取角色列表
+    // async getRoleList() {
+    //   const { data: res } = await this.$http.get('roles')
+    //   this.roleList = res.data
+    //   if (res.meta.status !== 200) return this.$message.error('获取角色列表失败')
+    // },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
       this.queryInfo.pagesize = newSize

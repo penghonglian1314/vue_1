@@ -6,6 +6,8 @@ import Login from '../componets/Login.vue'
 import Home from '../componets/Home.vue'
 import Welcome from '../componets/Welcome.vue'
 import Users from '../componets/user/Users.vue'
+import Roles from '../componets/rights/Roles.vue'
+import Rights from '../componets/rights/Rights.vue'
 // 通过this 来访问http
 Vue.use(VueRouter)
 const routes = [
@@ -16,7 +18,9 @@ const routes = [
     component: Home,
     redirect: '/welcome',
     children: [{ path: '/welcome', component: Welcome },
-      { path: '/users', component: Users }
+      { path: '/users', component: Users },
+      { path: '/roles', component: Roles },
+      { path: '/rights', component: Rights }
     ]
   }
 ]
