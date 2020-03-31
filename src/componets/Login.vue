@@ -56,7 +56,10 @@ export default {
         // console.log(result)
         // console.log(res)
         if (res.meta.status !== 200) return this.$message.error('登录失败')
-        this.$message.success('登录成功')
+        this.$message.success({
+          message: '登录成功',
+          duration: 2000
+        })
         // 为什么要保存token，因为要在登录之后才可以访问，这是在登录成功之后，服务器返回给客户端的信息，把token保存在
         // sessionstorage
         // console.log(res)

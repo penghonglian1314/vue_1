@@ -2,17 +2,23 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import '../assets/css/global.css'
 import '../assets/fonts/iconfont.css'
-import axios from 'axios'
 import Login from '../componets/Login.vue'
 import Home from '../componets/Home.vue'
+import Welcome from '../componets/Welcome.vue'
+import Users from '../componets/user/Users.vue'
 // 通过this 来访问http
-Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 Vue.use(VueRouter)
 const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
-  { path: '/home', component: Home }
+  {
+    path: '/home',
+    component: Home,
+    redirect: '/welcome',
+    children: [{ path: '/welcome', component: Welcome },
+      { path: '/users', component: Users }
+    ]
+  }
 ]
 const router = new VueRouter({
   mode: 'history',
