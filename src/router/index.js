@@ -8,6 +8,7 @@ import Welcome from '../componets/Welcome.vue'
 import Users from '../componets/user/Users.vue'
 import Roles from '../componets/rights/Roles.vue'
 import Rights from '../componets/rights/Rights.vue'
+import Goods from '../componets/goods/Goods.vue'
 // 通过this 来访问http
 Vue.use(VueRouter)
 const routes = [
@@ -20,7 +21,8 @@ const routes = [
     children: [{ path: '/welcome', component: Welcome },
       { path: '/users', component: Users },
       { path: '/roles', component: Roles },
-      { path: '/rights', component: Rights }
+      { path: '/rights', component: Rights },
+      { path: '/categories', component: Goods }
     ]
   }
 ]
@@ -29,6 +31,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
 // 挂载路由导航守卫
 router.beforeEach((to, from, next) => {
   // to将要访问的路径，
