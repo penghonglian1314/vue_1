@@ -9,6 +9,11 @@ import Users from '../componets/user/Users.vue'
 import Roles from '../componets/rights/Roles.vue'
 import Rights from '../componets/rights/Rights.vue'
 import Goods from '../componets/goods/Goods.vue'
+import List from '../componets/goods/List.vue'
+import Add from '../componets/goods/Add.vue'
+import Params from '../componets/goods/Params.vue'
+import Order from '../componets/order/Order.vue'
+import Report from '../componets/report/Report.vue'
 // 通过this 来访问http
 Vue.use(VueRouter)
 const routes = [
@@ -22,7 +27,12 @@ const routes = [
       { path: '/users', component: Users },
       { path: '/roles', component: Roles },
       { path: '/rights', component: Rights },
-      { path: '/categories', component: Goods }
+      { path: '/categories', component: Goods },
+      { path: '/params', component: Params },
+      { path: '/goods/add', component: Add },
+      { path: '/goods', component: List },
+      { path: '/order', component: Order },
+      { path: '/reports', component: Report }
     ]
   }
 ]
